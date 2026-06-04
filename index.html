@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novicho Chalman | Enterprise IT Infrastructure & AI Automation Specialist</title>
+    
+    <!-- Google Fonts: Inter for premium corporate typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            950: '#0b0f19',
+                        },
+                        brand: {
+                            50: '#f0f4ff',
+                            100: '#dbe5ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            950: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome for technical icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AlpineJS for state management (Bilingual & Interactivity) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 999px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 999px;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body x-data="{ 
+        darkMode: false, 
+        mobileMenu: false,
+        activeExp: 'corp',
+        activeSkillTab: 'all',
+        showToast: false,
+        toastMsg: '',
+        lang: 'id',
+        t(idText, enText) {
+            return this.lang === 'id' ? idText : enText;
+        },
+        triggerToast(msg) {
+            this.toastMsg = msg;
+            this.showToast = true;
+            setTimeout(() => { this.showToast = false; }, 3000);
+        },
+        init() {
+            let savedTheme = 'light';
+            try {
+                savedTheme = localStorage.getItem('theme') || 'light';
+            } catch(e) {
+                console.warn('Storage blocked in sandbox environment, default to light.');
+            }
+            this.darkMode = (savedTheme === 'dark');
+            
+            // CRITICAL DARK MODE FIX: Menyuntikkan kelas dark langsung ke dokumen root HTML
+            if (this.darkMode) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            this.$watch('darkMode', val => {
+                if (val) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                try {
+                    localStorage.setItem('theme', val ? 'dark' : 'light');
+                } catch(e) {}
+            });
+        }
+    }" 
+    class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans transition-colors duration-300 antialiased">
+
+    <!-- Toast Notification System -->
+    <div x-show="showToast" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-y-4 scale-95"
+         x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+         x-transition:leave-end="opacity-0 translate-y-4 scale-95"
+         class="fixed bottom-6 right-6 z-[110] bg-slate-900 dark:bg-white text-white dark:text-slate-950 px-6 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 text-sm font-medium border border-slate-800 dark:border-slate-200" 
+         x-cloak>
+        <i class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
+        <span x-text="toastMsg"></span>
+    </div>
+
+    <!-- Navigation Header (Permanen Gelap untuk Kontras Premium & Desain Maskulin) -->
+    <nav class="sticky top-0 z-[100] bg-slate-950/95 glass-header border-b border-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Corporate Logo -->
+                <a href="#home" class="flex items-center space-x-3.5 group">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                        NC
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg tracking-tight block text-white group-hover:text-brand-400 transition-colors">Novicho Chalman</span>
+                        <span class="text-[10px] text-slate-400 font-bold tracking-widest uppercase block mt-0.5" x-text="t('Enterprise IT & AI Integrator', 'Enterprise IT & AI Integrator')"></span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex items-center space-x-8 font-semibold text-[11px] tracking-wider uppercase">
+                    <a href="#about" class="text-slate-300 hover:text-brand-400 transition-colors" x-text="t('Tentang', 'About')"></a>
+                    <a href="#skills" class="text-slate-300 hover:text-brand-400 transition-colors" x-text="t('Keahlian', 'Skills')"></a>
+                    <a href="#experience" class="text-slate-300 hover:text-brand-400 transition-colors" x-text="t('Pengalaman', 'Experience')"></a>
+                    <a href="#ai-sandbox" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center space-x-1.5">
+                        <span class="relative flex h-2.5 w-2.5">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                        </span>
+                        <span x-text="t('AI Simulator', 'AI Simulator')"></span>
+                    </a>
+                    <a href="#portfolio" class="text-slate-300 hover:text-brand-400 transition-colors" x-text="t('Portofolio', 'Portfolio')"></a>
+                    <a href="#trainings" class="text-slate-300 hover:text-brand-400 transition-colors" x-text="t('Pelatihan', 'Trainings')"></a>
+                </div>
+
+                <!-- Theme Toggle & Bilingual Language Switcher -->
+                <div class="hidden lg:flex items-center space-x-4">
+                    <!-- Language Selector (Bilingual Toggle) -->
+                    <div class="flex items-center rounded-xl bg-slate-900 border border-slate-800 p-1">
+                        <button @click="lang = 'id'; triggerToast('Bahasa diubah ke Indonesia')" :class="lang === 'id' ? 'bg-brand-600 text-white' : 'text-slate-400 hover:text-white'" class="px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all">
+                            ID
+                        </button>
+                        <button @click="lang = 'en'; triggerToast('Language changed to English')" :class="lang === 'en' ? 'bg-brand-600 text-white' : 'text-slate-400 hover:text-white'" class="px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all">
+                            EN
+                        </button>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button @click="darkMode = !darkMode" class="p-3 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-all duration-200" title="Ubah Tema">
+                        <i x-show="!darkMode" class="fa-solid fa-moon text-lg"></i>
+                        <i x-show="darkMode" class="fa-solid fa-sun text-lg text-amber-400" x-cloak></i>
+                    </button>
+                    
+                    <a href="#contact" class="px-5 py-3 rounded-xl bg-white text-slate-950 hover:bg-brand-600 hover:text-white font-bold text-xs tracking-wider uppercase shadow-md hover:-translate-y-0.5 transition-all" x-text="t('Hubungi Kami', 'Contact Us')"></a>
+                </div>
+
+                <!-- Mobile Menu Toggles -->
+                <div class="flex items-center space-x-3 lg:hidden">
+                    <button @click="darkMode = !darkMode" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300" title="Ubah Tema">
+                        <i x-show="!darkMode" class="fa-solid fa-moon"></i>
+                        <i x-show="darkMode" class="fa-solid fa-sun text-amber-400" x-cloak></i>
+                    </button>
+                    <button @click="mobileMenu = !mobileMenu" class="p-2.5 rounded-xl bg-slate-900 text-slate-300 border border-slate-800">
+                        <i :class="mobileMenu ? 'fa-solid fa-times text-xl' : 'fa-solid fa-bars text-xl'"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div x-show="mobileMenu" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             class="lg:hidden border-b border-slate-900 bg-slate-950 px-4 pt-2 pb-6 space-y-1 shadow-2xl" 
+             x-cloak>
+            <a @click="mobileMenu = false" href="#about" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-slate-200 font-medium transition-colors" x-text="t('Tentang', 'About')"></a>
+            <a @click="mobileMenu = false" href="#skills" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-slate-200 font-medium transition-colors" x-text="t('Keahlian', 'Skills')"></a>
+            <a @click="mobileMenu = false" href="#experience" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-slate-200 font-medium transition-colors" x-text="t('Pengalaman', 'Experience')"></a>
+            <a @click="mobileMenu = false" href="#ai-sandbox" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-emerald-400 font-medium transition-colors" x-text="t('Asisten AI', 'AI Assistant')"></a>
+            <a @click="mobileMenu = false" href="#portfolio" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-slate-200 font-medium transition-colors" x-text="t('Portofolio', 'Portfolio')"></a>
+            <a @click="mobileMenu = false" href="#trainings" class="block px-4 py-3 rounded-xl hover:bg-slate-900 text-slate-200 font-medium transition-colors" x-text="t('Pelatihan', 'Trainings')"></a>
+            
+            <!-- Mobile Language Switcher Section -->
+            <div class="flex items-center justify-between px-4 py-3 border-t border-slate-900 mt-3 pt-4">
+                <span class="text-xs text-slate-400 font-bold uppercase tracking-wider" x-text="t('Pilih Bahasa', 'Select Language')"></span>
+                <div class="flex space-x-2">
+                    <button @click="lang = 'id'; triggerToast('Bahasa diubah ke Indonesia')" :class="lang === 'id' ? 'bg-brand-600 text-white' : 'bg-slate-900 text-slate-400 border border-slate-800'" class="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all">ID</button>
+                    <button @click="lang = 'en'; triggerToast('Language changed to English')" :class="lang === 'en' ? 'bg-brand-600 text-white' : 'bg-slate-900 text-slate-400 border border-slate-800'" class="px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase transition-all">EN</button>
+                </div>
+            </div>
+
+            <div class="pt-4 px-4">
+                <a @click="mobileMenu = false" href="#contact" class="block w-full text-center px-4 py-3 rounded-xl bg-brand-600 text-white font-bold shadow-md" x-text="t('Hubungi Kami', 'Contact Us')"></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden py-16">
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-60"></div>
+        <div class="absolute top-1/4 right-1/4 w-[450px] h-[450px] bg-brand-500/10 dark:bg-brand-500/5 rounded-full blur-3xl z-0 pointer-events-none"></div>
+        <div class="absolute bottom-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 dark:bg-indigo-500/5 rounded-full blur-3xl z-0 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Details: Brand Value Pitch -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2.5 px-3.5 py-2 rounded-full bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400 border border-brand-200/50 dark:border-brand-800/30 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span x-text="t('Infrastruktur IT Perusahaan & Otomasi Cerdas', 'Enterprise IT Infrastructure & Smart Automation')"></span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+                        <span x-text="t('Menyatukan', 'Unifying')"></span> <span class="bg-gradient-to-r from-brand-600 to-indigo-600 dark:from-brand-400 dark:to-indigo-400 bg-clip-text text-transparent" x-text="t('Infrastruktur IT', 'IT Infrastructure')"></span> &amp; <span class="text-slate-800 dark:text-slate-200" x-text="t('Agen AI Otonom', 'Autonomous AI Agents')"></span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal" x-text="t('Menyatukan keandalan sistem jaringan, server, database lokal, dan interkoneksi router dengan otomasi alur kerja AI Agents (n8n), integrasi API WABA ke CRM, dan Vibecoding untuk mereduksi inefisiensi operasional mutlak.', 'Unifying the reliability of network systems, servers, local databases, and router interconnections with autonomous AI Agent workflows (n8n), WABA API to CRM integration, and Vibecoding to completely eliminate operational inefficiencies.')"></p>
+
+                    <!-- Profile Quick Tags -->
+                    <div class="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                        <span class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 text-xs font-semibold border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm"><i class="fa-solid fa-server mr-2 text-brand-500"></i>Active Directory</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 text-xs font-semibold border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm"><i class="fa-solid fa-network-wired mr-2 text-indigo-500"></i>Mikrotik VPN</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 text-xs font-semibold border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm"><i class="fa-brands fa-whatsapp mr-2 text-emerald-500"></i>WABA API CRM</span>
+                        <span class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 text-xs font-semibold border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-sm"><i class="fa-solid fa-code mr-2 text-amber-500"></i>Vibecoding</span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="https://wa.me/6285211841441" target="_blank" rel="noopener" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm text-center shadow-lg shadow-brand-500/20 hover:-translate-y-0.5 transition-all">
+                            <span x-text="t('Konsultasi via WhatsApp', 'Consult on WhatsApp')"></span> <i class="fa-brands fa-whatsapp ml-2"></i>
+                        </a>
+                        <a href="#ai-sandbox" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-sm text-center border border-slate-200 dark:border-slate-800 shadow-sm transition-all">
+                            <span x-text="t('Eksperimen AI Agent', 'AI Agent Simulator')"></span> <i class="fa-solid fa-robot ml-2 text-emerald-500"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Server Status Mockup Card -->
+                <div class="lg:col-span-5 flex justify-center items-center">
+                    <div class="relative w-full max-w-md">
+                        <div class="absolute -inset-1 rounded-3xl bg-gradient-to-tr from-brand-600 to-indigo-600 opacity-20 blur-xl"></div>
+                        <div class="relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl p-6 space-y-6">
+                            
+                            <!-- Header Info -->
+                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="w-3 h-3 rounded-full bg-emerald-500 block animate-pulse"></span>
+                                    <span class="font-mono text-[10px] tracking-wider uppercase font-bold text-slate-400">Integration Node Status</span>
+                                </div>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 border border-brand-200/40">ONLINE</span>
+                            </div>
+
+                            <!-- Integration Metrics Stack -->
+                            <div class="space-y-3.5">
+                                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-9 h-9 rounded-lg bg-sky-100 dark:bg-sky-950 flex items-center justify-center text-sky-600"><i class="fa-solid fa-server"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Windows AD Core Server</p>
+                                            <p class="text-[9px] text-slate-400">Logon Scripts, File Server Active</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-mono text-emerald-500">99.9%</span>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-600"><i class="fa-brands fa-whatsapp"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">WABA CRM Webhook</p>
+                                            <p class="text-[9px] text-slate-400">Omnichannel Digital Routes</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-mono text-emerald-500">Active</span>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center text-indigo-600"><i class="fa-solid fa-microchip"></i></div>
+                                        <div>
+                                            <p class="text-xs font-bold text-slate-800 dark:text-slate-200">n8n Otonom AI Agent</p>
+                                            <p class="text-[9px] text-slate-400">n8n_core_engine v1.6</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs font-mono text-indigo-500">Idle...</span>
+                                </div>
+                            </div>
+
+                            <!-- Mock Shell Output -->
+                            <div class="rounded-xl bg-slate-950 text-slate-300 p-4 font-mono text-[9px] border border-slate-850 space-y-1">
+                                <p class="text-brand-400">$ node integration_check.js</p>
+                                <p class="text-slate-500">> Connected to local SQL Server [PT_Tutulan_Sukma] ... OK</p>
+                                <p class="text-emerald-400">> Listening WABA Webhooks on app.chatflow.biz.id</p>
+                                <p class="text-indigo-400">> Vibecoding sequence active: deploying hotfix payload</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white dark:bg-slate-900/40 border-y border-slate-200/50 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                
+                <!-- Left Details Profile & Contact Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Profil Profesional', 'Professional Profile')"></span>
+                        <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Menyatukan IT Operasional & Kecerdasan Buatan', 'Unifying Operational IT & Artificial Intelligence')"></h2>
+                    </div>
+                    
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base" x-text="t('Sebagian besar organisasi memisahkan departemen operasional IT dasar dari teknologi kecerdasan buatan (AI) dan analisis data. Peran saya adalah menghapus kesenjangan tersebut.', 'Most organizations separate basic IT operations from artificial intelligence (AI) and data analytics. My role is to bridge and eliminate this structural gap.')"></p>
+                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed text-sm sm:text-base" x-text="t('Dengan keahlian mendalam mengonfigurasi jaringan fisik router, server penyimpanan, sistem manajemen database, hingga otomasi alur kerja otonom menggunakan n8n, saya mendesain sistem hibrida yang terintegrasi secara otonom dengan infrastruktur lokal (on-premise) bisnis Anda.', 'With deep expertise configuring hardware routers, storage servers, database management systems, and n8n autonomous workflow engines, I design hybrid systems that seamlessly interact with your business\'s on-premise infrastructure.')"></p>
+
+                    <!-- Contact Details Box -->
+                    <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/60 dark:border-slate-800/60 space-y-4">
+                        <h4 class="font-bold text-xs tracking-wider uppercase text-slate-400 dark:text-slate-500" x-text="t('Hubungi Langsung', 'Direct Contact')"></h4>
+                        <div class="space-y-3.5">
+                            <div class="flex items-center space-x-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-brand-100 dark:bg-brand-950/50 flex items-center justify-center text-brand-600 dark:text-brand-400">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wide" x-text="t('Nomor HP/WA', 'Phone/WhatsApp')"></span>
+                                    <a href="tel:085211841441" class="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-brand-600 transition-colors">085211841441</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-indigo-100 dark:bg-indigo-950/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wide">Email</span>
+                                    <a href="mailto:novichochalman@gmail.com" class="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-indigo-600 transition-colors">novichochalman@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3.5">
+                                <div class="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-950/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                    <i class="fa-solid fa-globe"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wide" x-text="t('Layanan SaaS CRM', 'SaaS CRM Platform')"></span>
+                                    <a href="https://chatflow.biz.id" target="_blank" class="text-sm font-semibold text-slate-800 dark:text-slate-200 hover:text-emerald-600 transition-colors">chatflow.biz.id</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Details - Education History (HANYA Perguruan Tinggi Terakhir) -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest block" x-text="t('Kredensial Pendidikan', 'Educational Credentials')"></span>
+                        <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Pendidikan Terakhir', 'Latest Education')"></h2>
+                    </div>
+
+                    <!-- Highlighted Higher Education Box -->
+                    <div class="relative p-8 rounded-2xl bg-gradient-to-tr from-brand-50 to-indigo-50 dark:from-slate-900 dark:to-slate-950 border border-brand-100 dark:border-brand-900/50 shadow-sm space-y-4">
+                        <div class="flex items-start justify-between">
+                            <div class="space-y-1.5">
+                                <span class="px-2.5 py-1 rounded bg-brand-100 dark:bg-brand-900 text-[10px] font-bold text-brand-700 dark:text-brand-400 uppercase tracking-wider" x-text="t('Pendidikan Tinggi', 'Higher Education')"></span>
+                                <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-2">STIE Pandu Madania</h3>
+                                <p class="text-sm font-medium text-brand-600 dark:text-brand-400" x-text="t('S1 Manajemen Ekonomi', 'B.S. in Economic Management')"></p>
+                            </div>
+                            <span class="inline-block px-3 py-1 rounded-xl bg-white dark:bg-slate-900 text-xs text-slate-500 font-bold border border-slate-200 dark:border-slate-800 shadow-sm">2010 - 2015</span>
+                        </div>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed" x-text="t('Mempelajari prinsip manajemen operasional korporat, efisiensi rantai pasok (supply chain), manajemen risiko finansial, dan audit sistem operasional terintegrasi. Hal ini membekali saya untuk melihat implementasi IT bukan sekadar sebagai perangkat teknis, melainkan investasi strategis untuk melipatgandakan keuntungan operasional bisnis.', 'Studied corporate operations management, supply chain efficiency, financial risk mitigation, and integrated audit systems. This qualifies me to treat IT systems not merely as technical utilities, but as high-yield strategic investments that compound business growth and operational efficiency.')"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Keahlian Section -->
+    <section id="skills" class="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Kompetensi Inti', 'Core Competencies')"></span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Teknologi & Toolsets Yang Dikuasai', 'Technologies & Toolsets Mastered')"></h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed" x-text="t('Daftar lengkap kemampuan teknis terspesialisasi yang saya kuasai untuk menunjang transformasi infrastruktur dan automasi bisnis.', 'A comprehensive list of technical specializations designed to optimize enterprise architecture and business process automation.')"></p>
+            </div>
+
+            <!-- Categories Selector Buttons -->
+            <div class="flex flex-wrap gap-2 justify-center mb-12">
+                <button @click="activeSkillTab = 'all'" 
+                        :class="activeSkillTab === 'all' ? 'bg-brand-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'"
+                        class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                    <i class="fa-solid fa-circle-nodes mr-1.5"></i> <span x-text="t('Semua', 'All')"></span>
+                </button>
+                <button @click="activeSkillTab = 'network'" 
+                        :class="activeSkillTab === 'network' ? 'bg-brand-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'"
+                        class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                    <i class="fa-solid fa-network-wired mr-1.5"></i> Network & Server
+                </button>
+                <button @click="activeSkillTab = 'ai'" 
+                        :class="activeSkillTab === 'ai' ? 'bg-brand-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'"
+                        class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-emerald-500">
+                    <i class="fa-solid fa-robot mr-1.5"></i> AI Agent & CRM
+                </button>
+                <button @click="activeSkillTab = 'data'" 
+                        :class="activeSkillTab === 'data' ? 'bg-brand-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'"
+                        class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                    <i class="fa-solid fa-chart-pie mr-1.5"></i> Database & Analytics
+                </button>
+                <button @click="activeSkillTab = 'infra'" 
+                        :class="activeSkillTab === 'infra' ? 'bg-brand-600 text-white shadow-md' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800'"
+                        class="px-5 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all">
+                    <i class="fa-solid fa-screwdriver-wrench mr-1.5"></i> IT Infra & Design
+                </button>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Category: Network & Server -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'network'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-brand-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-slate-900 dark:text-white" x-text="t('Sistem Jaringan & AD Server', 'Network & AD Server Systems')"></h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i><span x-text="t('Konfigurasi Mikrotik Firewall & VPN Branch', 'MikroTik Firewall & VPN Branch Configuration')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i>Active Directory Server (2008, 2012)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i><span x-text="t('Pembuatan Logon Script & File Server', 'Logon Script & File Server Engineering')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i><span x-text="t('Jaringan WAN, LAN, & Wi-Fi Architecture', 'WAN, LAN, & Wi-Fi Network Architecture')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i>Synology NAS & Server Freenas Setup</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-blue-500 mr-2.5"></i>DHCP Server & Client Routing</li>
+                    </ul>
+                </div>
+
+                <!-- Category: AI Agent & Automation -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'ai'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                        <span x-text="t('AI Agent, API & CRM', 'AI Agent, API & CRM')"></span>
+                        <span class="px-2 py-0.5 rounded text-[9px] bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider animate-pulse">Advanced</span>
+                    </h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center text-emerald-600 dark:text-emerald-400 font-semibold"><i class="fa-solid fa-chevron-right text-xs mr-2.5"></i><span x-text="t('Konfigurasi API WABA ke CRM Dashboard', 'WABA API CRM Dashboard Integration')"></span></li>
+                        <li class="flex items-center text-emerald-600 dark:text-emerald-400 font-semibold"><i class="fa-solid fa-chevron-right text-xs mr-2.5"></i><span x-text="t('Vibecoding (AI-driven development)', 'Vibecoding (AI-driven development)')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-emerald-500 mr-2.5"></i>n8n AI Workflows (Intelligent Automation)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-emerald-500 mr-2.5"></i><span x-text="t('Chatbot Pintar dengan OpenClaw', 'Intelligent Chatbots with OpenClaw')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-emerald-500 mr-2.5"></i><span x-text="t('Pembangunan Omnichannel CRM Terintegrasi', 'Omnichannel CRM Integration Development')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-emerald-500 mr-2.5"></i>AI Automated Invoice & WhatsApp Cashier</li>
+                    </ul>
+                </div>
+
+                <!-- Category: Database & Data Analytics -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'data'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-indigo-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-slate-900 dark:text-white" x-text="t('Database & Analitik Data', 'Database & Data Analytics')"></h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i><span x-text="t('Dashboard Visualisasi Data dengan Power BI', 'Data Visualization Dashboard using Power BI')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i><span x-text="t('Konsep Perancangan Data Warehouse', 'Data Warehouse Conceptual Design')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i>SQL Server Administration & Queries</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i><span x-text="t('Analisis Laporan Penjualan Korporat', 'Corporate Sales Report Analysis')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i><span x-text="t('Integrasi Database ERP System', 'ERP System Database Integration')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-indigo-500 mr-2.5"></i>Data Mining & Data Science Fundamental</li>
+                    </ul>
+                </div>
+
+                <!-- Category: IT Support & Infrastructure Tools -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'infra'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-pink-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-pink-100 dark:bg-pink-950/50 text-pink-600 dark:text-pink-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-slate-900 dark:text-white">IT Infrastructure, Linux & Docker</h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i><span x-text="t('Setup Server Easypanel (Docker Control Panel)', 'Easypanel Server Setup (Docker Control Panel)')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i><span x-text="t('Instalasi CasaOS (Self-Hosted Cloud Server)', 'CasaOS Installation (Self-Hosted Cloud Server)')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i><span x-text="t('Menguasai Distro Linux (Ubuntu, CentOS, Zorin, Mint)', 'Linux Distros (Ubuntu, CentOS, Zorin, Mint)')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i>Virtual Box & VMware ESXi Virtualization</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i><span x-text="t('Penyusunan IK, SOP & Dokumentasi IT', 'Structuring IT Guidelines, SOPs & Documentation')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-pink-500 mr-2.5"></i>Hiren's Boot CD (Partitioning, Image Backup & Restore)</li>
+                    </ul>
+                </div>
+
+                <!-- Category: Web Dev & Creative Design -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'infra'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-purple-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-slate-900 dark:text-white" x-text="t('Desain Kreatif & Web Dev', 'Creative Design & Web Dev')"></h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i><span x-text="t('Desain Branding Kemasan (Packaging Design)', 'Packaging & Product Branding Design')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i>Corel Draw (Desain Banner, Brosur, Stiker)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i>Photoshop (Manipulasi & Desain Karikatur)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i>Video Editing (Corel Studio & Pinnacle Studio)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i>Instalasi WordPress di Linux / Windows IIS</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-purple-500 mr-2.5"></i>cPanel & WHM (CentOS Server Administration)</li>
+                    </ul>
+                </div>
+
+                <!-- Category: IT Support Hardware & ERP Systems -->
+                <div x-show="activeSkillTab === 'all' || activeSkillTab === 'infra'" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:border-slate-500/30 transition-all duration-300" x-cloak>
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-xl mb-5 shadow-sm">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-3 text-slate-900 dark:text-white" x-text="t('Dukungan IT & Sistem ERP', 'IT Support & ERP Systems')"></h3>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i>Troubleshooting Hardware (PC, Laptop, Printer)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i><span x-text="t('Pemasangan, Pengaturan & Instalasi CCTV', 'Deployment, Tuning & Installation of CCTV')"></span></li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i>Support ERP Systems (Accurate & Infor)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i>Setting Microsoft Outlook & Email Korporasi</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i>Microsoft Office (Word, Excel, PPT, Visio)</li>
+                        <li class="flex items-center"><i class="fa-solid fa-chevron-right text-xs text-slate-500 mr-2.5"></i>Owncloud Private Cloud Integration</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pengalaman Kerja & Proyek Freelance -->
+    <section id="experience" class="py-24 bg-white dark:bg-slate-900/40 border-y border-slate-200/50 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div class="space-y-2">
+                    <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Riwayat Profesional', 'Professional Timeline')"></span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Pengalaman Kerja', 'Work Experience')"></h2>
+                </div>
+                <!-- Experience Category Switcher -->
+                <div class="inline-flex p-1 rounded-2xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+                    <button @click="activeExp = 'corp'" 
+                            :class="activeExp === 'corp' ? 'bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'"
+                            class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                            x-text="t('Karir Korporasi', 'Corporate Career')">
+                    </button>
+                    <button @click="activeExp = 'free'" 
+                            :class="activeExp === 'free' ? 'bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'"
+                            class="px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200"
+                            x-text="t('Proyek & Lepas', 'Freelance & Projects')">
+                    </button>
+                </div>
+            </div>
+
+            <!-- TIMELINE 1: Corporate Experience -->
+            <div x-show="activeExp === 'corp'" class="relative border-l-2 border-slate-200 dark:border-slate-800 pl-6 sm:pl-10 space-y-12 ml-4 animate-[fadeIn_0.3s_ease]" x-transition>
+                
+                <!-- Experience Block: PT Tutulan Sukma -->
+                <div class="relative">
+                    <div class="absolute -left-10 sm:-left-14 top-1.5 w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white text-xs shadow-md">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div>
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white">IT Support Lead</h3>
+                            <p class="text-sm font-semibold text-brand-600 dark:text-brand-400">PT. Tutulan Sukma</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-xl bg-brand-50 dark:bg-brand-900/40 text-xs text-brand-700 dark:text-brand-400 font-bold sm:mt-0 mt-2 self-start sm:self-center border border-brand-200/30" x-text="t('2019 - Sekarang', '2019 - Present')"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Instalasi, pengaturan & pemeliharaan Hardware & Software.', 'Hardware & Software installation, maintenance & configuration.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Membangun server Active Directory (Windows Server 2008 & 2012).', 'Constructed Windows Server Active Directory Domain Controller (2008 & 2012).')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Membangun sistem Server-Client menggunakan Windows Server 2012.', 'Built Server-Client computing architecture leveraging Windows Server 2012.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Perbaikan hardware komputer, laptop, & printer di kantor pusat & cabang.', 'Repaired computer hardware, laptops, and printers at HQ and branch offices.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Perancangan infrastruktur jaringan WAN/LAN, Wi-Fi, & CCTV.', 'Engineered WAN/LAN networking layouts, Wi-Fi deployment, and CCTV routing.')"></span></li>
+                        </ul>
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Konfigurasi Router MikroTik (QoS, Firewall, VPN Branch).', 'MikroTik Router configuration (Bandwidth QoS, Web Filter, Firewall, Branch VPN).')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Pembangunan jalur VPN (PPTP, SSTP, L2TP) inter-koneksi kantor cabang.', 'Established SSTP/PPTP/L2TP secure VPN tunnels connecting branch offices.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Pengelolaan cPanel, database SQL Server, & Server ERP.', 'Managed SQL Server databases, ERP servers, and cPanel configuration.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Mendesain dan meluncurkan website perusahaan resmi: www.tutulansukma.com.', 'Designed and deployed corporate company profile portal: www.tutulansukma.com.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Pembuatan visualisasi laporan penjualan korporat dinamis bertenaga Power BI.', 'Created interactive and dynamic corporate sales reports powered by Power BI.')"></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Block: PT Interact Corpindo -->
+                <div class="relative">
+                    <div class="absolute -left-10 sm:-left-14 top-1.5 w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-xs border border-slate-300 dark:border-slate-700">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div>
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white">IT Support Specialist</h3>
+                            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">PT. Interact Corpindo</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-400 font-bold sm:mt-0 mt-2 self-start sm:self-center border border-slate-200 dark:border-slate-700">2017 - 2019</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Setup Active Directory Server, Logon Script & skema pembagian File Server.', 'Setup Active Directory Server, Logon Scripts, and secure File Server structures.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Troubleshooting hardware PC, laptop, printer, jaringan Wi-Fi, & CCTV.', 'Maintained hardware PC, laptops, printers, office Wi-Fi networks, and CCTV.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Berperan sebagai IT ERP Analyst dan mengawal penuh implementasi ERP.', 'Acted as IT ERP Analyst to monitor and coordinate full ERP implementations.')"></span></li>
+                        </ul>
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Konfigurasi Router MikroTik (QoS, Firewall, VPN SSTP/PPTP).', 'MikroTik Router configuration (QoS limits, Domain Blocks, Firewall, Branch VPN).')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Setting akun email, update file web di cPanel, & setting MS Outlook.', 'Configure email accounts, update web files via cPanel, and deploy MS Outlook.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Mengonfigurasi server WHM (Web Host Manager) berbasis OS Linux CentOS.', 'Configured WHM (Web Host Manager) based on Linux CentOS operating systems.')"></span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Block: PT Trigunung Padutama -->
+                <div class="relative">
+                    <div class="absolute -left-10 sm:-left-14 top-1.5 w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-xs border border-slate-300 dark:border-slate-700">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div>
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white">IT Support & Desain Packaging</h3>
+                            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">PT. Trigunung Padutama</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-400 font-bold sm:mt-0 mt-2 self-start sm:self-center border border-slate-200 dark:border-slate-700">2015 - 2017</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600 dark:text-slate-400 mt-4 leading-relaxed">
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Membangun server Windows Server 2008, Logon Script, & File Server.', 'Built Windows Server 2008, custom Logon Scripts, and managed File Servers.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Troubleshooting hardware PC, laptop, printer, & CCTV.', 'Hardware PC, laptop, printer repairs, and CCTV maintenance.')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Pemasangan & optimasi jalur jaringan internet WAN, LAN, & Wi-Fi pabrik.', 'Optimized and wired factory-wide internet lines (WAN, LAN, and Wi-Fi networks).')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Support teknis software ERP Accurate dan ERP Infor.', 'Technical support for Accurate ERP and Infor ERP within the production facility.')"></span></li>
+                        </ul>
+                        <ul class="space-y-1.5">
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Setting Router MikroTik (QoS, Firewall, & VPN Network).', 'Configured MikroTik routers (QoS bandwidth, Firewall rules, and VPN networks).')"></span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-circle-check text-xs text-slate-400 dark:text-slate-500 mt-1 mr-2.5 flex-shrink-0"></i><span x-text="t('Setting cPanel korporasi (akun email & update file).', 'Corporate cPanel setting (email accounts & updates).')"></span></li>
+                            <li class="flex items-start animate-pulse"><i class="fa-solid fa-circle-check text-xs text-brand-500 mt-1 mr-2.5 flex-shrink-0"></i><strong class="text-slate-800 dark:text-slate-200" x-text="t('Double Role (Grafis): Mendesain seluruh kemasan (packaging), banner, brosur, untuk klien PT. Trigunung Padutama.', 'Double Role (Graphics): Designed entire packaging templates, banners, brochures, and stickers for all PT. Trigunung Padutama clients.')"></strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience Block: PT Water Index Tirta Lestari -->
+                <div class="relative">
+                    <div class="absolute -left-10 sm:-left-14 top-1.5 w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 flex items-center justify-center text-xs border border-slate-300 dark:border-slate-700">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <div>
+                            <h3 class="font-bold text-xl text-slate-900 dark:text-white" x-text="t('Checker Gudang', 'Warehouse Checker')"></h3>
+                            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">PT. Water Index Tirta Lestari</p>
+                        </div>
+                        <span class="inline-block px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs text-slate-600 dark:text-slate-400 font-bold sm:mt-0 mt-2 self-start sm:self-center border border-slate-200 dark:border-slate-700">2015 (6 Bulan)</span>
+                    </div>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 leading-relaxed" x-text="t('Bertanggung jawab memverifikasi keluar-masuknya barang produksi dari pabrik menuju gudang penyimpanan, mengontrol akurasi surat jalan logistik ke konsumen, serta mengadministrasikan registrasi barang retur dari konsumen secara teliti.', 'Responsible for auditing inbound and outbound product streams from factory to warehouse storage, ensuring transit bill of lading correctness, and logging customer item return reports with absolute precision.')"></p>
+                </div>
+
+            </div>
+
+            <!-- TIMELINE 2: Freelance / Other Experience -->
+            <div x-show="activeExp === 'free'" class="relative border-l-2 border-slate-200 dark:border-slate-800 pl-6 sm:pl-10 space-y-12 ml-4 animate-[fadeIn_0.3s_ease]" x-transition x-cloak>
+                <div class="relative">
+                    <div class="absolute -left-10 sm:-left-14 top-1.5 w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white text-xs shadow-md">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 dark:text-white mb-6" x-text="t('Konsultasi IT, Server, & Jaringan Independen', 'Independent IT Consulting, Server & Network Integration')"></h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/50 space-y-2">
+                            <span class="text-[10px] font-bold text-brand-600 uppercase tracking-widest block">PT. Artapack Indonesia</span>
+                            <h4 class="font-extrabold text-base text-slate-900 dark:text-white" x-text="t('IT Infrastructure Consultant & Web Dev', 'IT Infrastructure Consultant & Web Developer')"></h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Bertanggung jawab melakukan perbaikan HW/SW, mengelola server e-mail korporat, serta membangun, mendesain, dan melakukan optimasi keamanan situs portal perusahaan.', 'Maintained hardware and software, hosted business email nodes, and deployed high-converting web portals with search engine optimization.')"></p>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/50 space-y-2">
+                            <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-widest block">CV. Reza Printing</span>
+                            <h4 class="font-extrabold text-base text-slate-900 dark:text-white" x-text="t('Network Integrator & Tech Support', 'Network Integrator & Tech Support')"></h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Pemeliharaan rutin server pencetakan, penataan instalasi kabel jaringan LAN & Wi-Fi toko, serta penyusunan jaringan bertipe Client-Server lokal.', 'Routine maintenance of printing host machines, structured LAN and Wi-Fi cabling layout, and configuring local Server-Client networks.')"></p>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/50 space-y-2">
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest block">PT. Sarana Abadi Makmur Bersama</span>
+                            <h4 class="font-extrabold text-base text-slate-900 dark:text-white" x-text="t('VPN Mikrotik Integration Engineer', 'VPN MikroTik Integration Engineer')"></h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Konfigurasi router MikroTik Core, seting VPN bertipe PPTP antar-cabang guna menghubungkan komunikasi database operasional antar-cabang dengan aman.', 'Configured core MikroTik routers, deploying PPTP branch tunnels to connect database systems across various physical centers securely.')"></p>
+                        </div>
+
+                        <div class="p-6 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/50 dark:border-slate-800/50 space-y-2">
+                            <span class="text-[10px] font-bold text-pink-600 uppercase tracking-widest block" x-text="t('Layanan Jasa Mandiri Wilayah Bekasi', 'On-Demand IT Services (Bekasi)')"></span>
+                            <h4 class="font-extrabold text-base text-slate-900 dark:text-white" x-text="t('Penyedia Jasa Website & Teknisi Panggilan', 'On-Call Technician & Custom Web Developer')"></h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Melayani jasa pembuatan website kustom instan untuk pelaku bisnis lokal, serta jasa perbaikan teknisi komputer/printer mandiri untuk rumahan dan UMKM.', 'Serves instant custom websites for local businesses alongside hardware/printer repairs for residential and SOHO customers.')"></p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agent Simulator (Eksperimen n8n) -->
+    <section id="ai-sandbox" class="py-24 bg-slate-50 dark:bg-slate-950/20 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column - Details -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span x-text="t('Live Simulator', 'Live Simulator')"></span>
+                        </span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Eksperimen Agen AI & Alur Kerja n8n', 'AI Agent Simulator & n8n Workflows')"></h2>
+                    </div>
+
+                    <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed" x-text="t('Sebagai pembuktian kompetensi automasi pintar, saya merancang Asisten AI Simulator di samping. Sistem ini mensimulasikan respons otonom n8n workflow yang terintegrasi ke dalam API WhatsApp, pembacaan stok SQL, hingga sistem kustom CRM.', 'To demonstrate smart automation capability, I have deployed the adjacent AI Assistant Simulator. This environment showcases autonomous n8n workflows integrated directly into WABA APIs, SQL databases, and custom CRMs.')"></p>
+
+                    <!-- Fast Click Options -->
+                    <div class="space-y-3.5 pt-2">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider" x-text="t('Klik Menu Cepat Uji Coba Skenario:', 'Click a Quick Scenario to Test:')"></p>
+                        <div class="flex flex-wrap gap-2">
+                            <button @click="$dispatch('trigger-ai', 'Bisa jelaskan detail Chatflow CRM dan implementasi API WABA?')" class="text-xs px-3.5 py-2 rounded-xl border border-brand-200/50 dark:border-brand-900 bg-white dark:bg-slate-900 text-brand-700 dark:text-brand-400 hover:bg-brand-600 hover:text-white transition-all shadow-sm">
+                                <i class="fa-brands fa-whatsapp mr-1.5 text-emerald-500"></i> WABA API CRM
+                            </button>
+                            <button @click="$dispatch('trigger-ai', 'Bagaimana cara Anda melakukan Vibecoding dengan AI?')" class="text-xs px-3.5 py-2 rounded-xl border border-brand-200/50 dark:border-brand-900 bg-white dark:bg-slate-900 text-brand-700 dark:text-brand-400 hover:bg-brand-600 hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-code mr-1.5 text-indigo-500"></i> Vibecoding
+                            </button>
+                            <button @click="$dispatch('trigger-ai', 'Bagaimana setup OpenClaw, Easypanel, & CasaOS?')" class="text-xs px-3.5 py-2 rounded-xl border border-brand-200/50 dark:border-brand-900 bg-white dark:bg-slate-900 text-brand-700 dark:text-brand-400 hover:bg-brand-600 hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-server mr-1.5 text-amber-500"></i> Self-Hosted Server
+                            </button>
+                            <button @click="$dispatch('trigger-ai', 'Apa saja portofolio keahlian Mikrotik & Active Directory Anda?')" class="text-xs px-3.5 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-brand-600 hover:text-white transition-all shadow-sm">
+                                <i class="fa-solid fa-network-wired mr-1.5 text-blue-500"></i> Mikrotik & AD Server
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Chat Bot Console -->
+                <div class="lg:col-span-7" x-data="{
+                    chatHistory: [],
+                    inputText: '',
+                    typing: false,
+                    init() {
+                        this.$watch('lang', val => {
+                            this.chatHistory = [
+                                { sender: 'ai', text: val === 'id' 
+                                    ? 'Halo! Saya asisten AI Novicho. Silakan pilih menu di samping atau ketik pertanyaan seputar integrasi API WABA ke CRM, teknik Vibecoding, Mikrotik VPN, AD Server, atau deployment Easypanel & CasaOS.' 
+                                    : 'Hello! I am Novicho\'s AI assistant. Please select a quick menu or type questions regarding WABA API to CRM integration, Vibecoding, Mikrotik VPN, AD Server, or Easypanel & CasaOS deployment.' }
+                            ];
+                        });
+                        this.chatHistory = [
+                            { sender: 'ai', text: this.lang === 'id' 
+                                ? 'Halo! Saya asisten AI Novicho. Silakan pilih menu di samping atau ketik pertanyaan seputar integrasi API WABA ke CRM, teknik Vibecoding, Mikrotik VPN, AD Server, atau deployment Easypanel & CasaOS.' 
+                                : 'Hello! I am Novicho\'s AI assistant. Please select a quick menu or type questions regarding WABA API to CRM integration, Vibecoding, Mikrotik VPN, AD Server, or Easypanel & CasaOS deployment.' }
+                        ];
+                    },
+                    askAI(query) {
+                        if(!query.trim()) return;
+                        this.chatHistory.push({ sender: 'user', text: query });
+                        this.inputText = '';
+                        this.typing = true;
+                        
+                        this.$nextTick(() => { this.scrollChat(); });
+
+                        setTimeout(() => {
+                            let response = '';
+                            let q = query.toLowerCase();
+                            let isID = this.lang === 'id';
+
+                            if (q.includes('crm') || q.includes('chatflow') || q.includes('waba') || q.includes('api')) {
+                                response = isID 
+                                    ? 'Saya mendevelop **Chatflow CRM** (tersedia di app.chatflow.biz.id) dengan profil landing page di chatflow.biz.id. Saya ahli dalam mengonfigurasi **API WhatsApp Business (WABA)**, Instagram, Messenger, Webchat, dan Telegram langsung ke sistem CRM ini menggunakan webhook n8n, memungkinkan seluruh pesan masuk dari pelanggan dipetakan secara real-time ke dalam satu dashboard omnichannel tim CS Anda.'
+                                    : 'I developed **Chatflow CRM** (available at app.chatflow.biz.id with its landing page at chatflow.biz.id). I specialize in configuring **WhatsApp Business API (WABA)**, Instagram, Messenger, Webchat, and Telegram directly into this CRM system using n8n webhooks, letting your team manage all incoming messages in real-time from a single omnichannel dashboard.';
+                            } else if (q.includes('vibecoding') || q.includes('assisted') || q.includes('cepat')) {
+                                response = isID
+                                    ? 'Dalam pengembangan perangkat lunak, saya mengadopsi konsep **Vibecoding** bertenaga kecerdasan buatan. Hal ini memungkinkan saya melakukan prototyping, penyusunan fungsi logika, serta perbaikan *bug* sistem dengan kecepatan sangat tinggi menggunakan prompting cerdas terstruktur pada generator AI, memangkas durasi pengembangan aplikasi.'
+                                    : 'In software development, I embrace the concept of **Vibecoding** powered by artificial intelligence. This allows me to perform rapid prototyping, build logic functions, and fix system bugs at blazing speeds using structured, intelligent prompting on AI generators, drastically reducing application development cycles.';
+                            } else if (q.includes('openclaw') || q.includes('easypanel') || q.includes('casaos') || q.includes('self-hosted') || q.includes('docker')) {
+                                response = isID
+                                    ? 'Saya menguasai ekosistem self-hosted modern. Saya mampu mendeploy **OpenClaw** sebagai asisten chatbot AI cerdas berbasis kustomisasi lokal, membangun **Server Easypanel** berbasis Docker untuk deploy aplikasi instant terotomasi, serta mengonfigurasi **CasaOS** untuk mengubah server / VPS menjadi cloud pribadi penyimpanan NAS yang efisien.'
+                                    : 'I am highly proficient in the modern self-hosted ecosystem. I can deploy **OpenClaw** as an autonomous, local-first intelligent AI chatbot, build Docker-based **Easypanel servers** for instant automated application deployment, and configure **CasaOS** to turn any server/VPS into an efficient personal NAS cloud storage.';
+                            } else if (q.includes('mikrotik') || q.includes('jaringan') || q.includes('directory') || q.includes('server') || q.includes('ad')) {
+                                response = isID
+                                    ? 'Saya terampil mengonfigurasi Windows Server Active Directory (2008 & 2012), logon scripts, dan file server lokal. Di bidang jaringan, saya ahli menyetting Router MikroTik untuk bandwidth management, firewall filter keamanan, serta instalasi VPN SSTP/PPTP/L2TP inter-koneksi aman kantor cabang.'
+                                    : 'I am skilled in configuring Windows Server Active Directory (2008 & 2012), logon scripts, and local file servers. In networking, I specialize in setting up MikroTik routers for bandwidth management, security firewall filtering, and SSTP/PPTP/L2TP VPN tunnels for secure branch interconnection.';
+                            } else if (q.includes('portofolio') || q.includes('website') || q.includes('buat')) {
+                                response = isID
+                                    ? 'Situs web profesional yang telah saya bangun antara lain: chatflow.biz.id, app.chatflow.biz.id, tutulansukma.com, artapackindo.com, samudradieselpart.com, gammabaharimandiri.com, rpu.co.id, dan rezaprint.co.id.'
+                                    : 'Professional websites I have built include: chatflow.biz.id, app.chatflow.biz.id, tutulansukma.com, artapackindo.com, samudradieselpart.com, gammabaharimandiri.com, rpu.co.id, and rezaprint.co.id.';
+                            } else {
+                                response = isID
+                                    ? 'Saya memahami pertanyaan Anda. Sebagai IT Support & Automation Specialist, saya berfokus pada integrasi database (SQL Server), visualisasi analitis Power BI, konfigurasi server lokal & cloud (Easypanel), hingga otomatisasi pesan WhatsApp API (WABA) ke CRM.'
+                                    : 'I understand your query. As an IT Support & Automation Specialist, I focus on database integration (SQL Server), Power BI analytical visualizations, local & cloud server configurations (Easypanel), and automated WABA API messaging into CRM ecosystems.';
+                            }
+
+                            this.chatHistory.push({ sender: 'ai', text: response });
+                            this.typing = false;
+                            this.$nextTick(() => { this.scrollChat(); });
+                        }, 1000);
+                    },
+                    scrollChat() {
+                        const el = document.getElementById('chatConsoleBox');
+                        if (el) el.scrollTop = el.scrollHeight;
+                    }
+                }" @trigger-ai.window="askAI($event.detail)">
+                    
+                    <!-- Chat Container Box -->
+                    <div class="w-full rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden flex flex-col h-[480px]">
+                        
+                        <!-- Chat Console Header -->
+                        <div class="p-4 bg-emerald-600 text-white flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="relative">
+                                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-lg"><i class="fa-solid fa-robot"></i></div>
+                                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-lime-400 border-2 border-emerald-600 rounded-full"></span>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Novicho AI - Integration Bot</h4>
+                                    <p class="text-[10px] text-emerald-100 flex items-center gap-1">
+                                        <i class="fa-solid fa-bolt text-[8px]"></i> <span x-text="t('Sistem n8n Aktif', 'n8n Active Agent')"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <span class="text-[9px] font-mono bg-black/20 px-2.5 py-1 rounded-lg">WABA_CRM_v1.2</span>
+                        </div>
+
+                        <!-- Chat Output messages stream -->
+                        <div id="chatConsoleBox" class="flex-1 overflow-y-auto p-5 space-y-4 bg-slate-50 dark:bg-slate-950 scrollbar-thin">
+                            
+                            <template x-for="(msg, index) in chatHistory" :key="index">
+                                <div :class="msg.sender === 'user' ? 'justify-end' : 'justify-start'" class="flex items-start space-x-2.5">
+                                    
+                                    <!-- Bot Logo Icon -->
+                                    <div x-show="msg.sender === 'ai'" class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs flex-shrink-0">
+                                        <i class="fa-solid fa-robot"></i>
+                                    </div>
+
+                                    <!-- Message Bubble -->
+                                    <div :class="msg.sender === 'user' ? 'bg-brand-600 text-white rounded-tr-none' : 'bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 border border-slate-200 dark:border-slate-800 rounded-tl-none'"
+                                         class="max-w-[85%] px-4 py-3 rounded-2xl shadow-sm text-xs leading-relaxed">
+                                        <p x-html="msg.text.replace(/\n/g, '<br>')"></p>
+                                    </div>
+
+                                </div>
+                            </template>
+
+                            <!-- Bot Typing Simulation -->
+                            <div x-show="typing" class="flex items-center space-x-2.5" x-cloak>
+                                <div class="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs flex-shrink-0">
+                                    <i class="fa-solid fa-robot"></i>
+                                </div>
+                                <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-3 rounded-2xl rounded-tl-none flex items-center space-x-1 shadow-sm">
+                                    <div class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce"></div>
+                                    <div class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                                    <div class="w-1.5 h-1.5 bg-slate-400 dark:bg-slate-500 rounded-full animate-bounce [animation-delay:0.4s]"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Chat Console Input Bar -->
+                        <form @submit.prevent="askAI(inputText)" class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex items-center space-x-3">
+                            <input type="text" 
+                                   x-model="inputText" 
+                                   :placeholder="t('Ketik pertanyaan untuk AI simulator...', 'Type a question for the AI simulator...')" 
+                                   class="flex-1 px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                            <button type="submit" class="w-11 h-11 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow transition-all flex-shrink-0">
+                                <i class="fa-solid fa-paper-plane text-xs"></i>
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Portofolio Website Showcase -->
+    <section id="portfolio" class="py-24 bg-white dark:bg-slate-900/40 border-y border-slate-200/50 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Galeri Portofolio', 'Portfolio Showcase')"></span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Website Yang Sudah Dibuat', 'Websites Developed')"></h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed" x-text="t('Daftar produk aplikasi SaaS CRM andalan dan jajaran portal web korporasi yang berhasil didevelop dan diluncurkan ke pasar.', 'Featured SaaS CRM products and corporate portal deployments built and successfully delivered to the market.')"></p>
+            </div>
+
+            <!-- Websites Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Flagship App Card: Chatflow CRM (SaaS Showcase) -->
+                <div class="group rounded-2xl bg-slate-950 border border-brand-500/20 overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 lg:col-span-3">
+                    <div class="p-8 sm:p-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+                        <div class="space-y-4 max-w-3xl text-left">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="text-[9px] uppercase font-extrabold tracking-widest bg-brand-600 text-white px-3 py-1 rounded-full shadow-md animate-pulse">SaaS CRM</span>
+                                <span class="text-[9px] uppercase font-extrabold tracking-widest bg-emerald-600 text-white px-3 py-1 rounded-full shadow-md">WABA API</span>
+                                <span class="text-[9px] uppercase font-extrabold tracking-widest bg-indigo-600 text-white px-3 py-1 rounded-full shadow-md" x-text="t('Omnichannel', 'Omnichannel')"></span>
+                            </div>
+                            <h3 class="font-extrabold text-2xl sm:text-3xl text-white group-hover:text-brand-400 transition-colors">Chatflow CRM</h3>
+                            <div class="flex flex-wrap gap-4 text-xs">
+                                <a href="https://chatflow.biz.id" target="_blank" class="text-brand-400 hover:underline flex items-center gap-1.5"><i class="fa-solid fa-globe"></i> Landing Page: chatflow.biz.id</a>
+                                <a href="https://app.chatflow.biz.id" target="_blank" class="text-emerald-400 hover:underline flex items-center gap-1.5"><i class="fa-solid fa-circle-play"></i> Application: app.chatflow.biz.id</a>
+                            </div>
+                            <p class="text-sm text-slate-300 leading-relaxed" x-text="t('Aplikasi CRM Omnichannel terkemuka yang dirancang khusus untuk mengintegrasikan berbagai jalur komunikasi digital pelanggan ke dalam satu dashboard tunggal. Terhubung penuh dengan integrasi API WhatsApp Business (WABA) otonom bertenaga n8n.', 'A leading Omnichannel CRM application engineered specifically to consolidate customer digital channels into a unified dashboard. Built with fully automated WhatsApp Business API (WABA) engines powered by n8n.')"></p>
+                            
+                            <!-- Connected Channels Showcase -->
+                            <div class="space-y-2 pt-2">
+                                <span class="text-[10px] text-slate-400 uppercase font-bold tracking-widest block" x-text="t('Saluran Terintegrasi:', 'Integrated Channels:')"></span>
+                                <div class="flex flex-wrap gap-2.5">
+                                    <span class="px-3 py-1.5 rounded-lg bg-emerald-950/40 border border-emerald-900/30 text-[11px] font-bold text-emerald-400 flex items-center gap-1.5">
+                                        <i class="fa-brands fa-whatsapp text-xs"></i> WhatsApp
+                                    </span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-pink-950/40 border border-pink-900/30 text-[11px] font-bold text-pink-400 flex items-center gap-1.5">
+                                        <i class="fa-brands fa-instagram text-xs"></i> Instagram
+                                    </span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-blue-950/40 border border-blue-900/30 text-[11px] font-bold text-blue-400 flex items-center gap-1.5">
+                                        <i class="fa-brands fa-facebook-messenger text-xs"></i> Messenger
+                                    </span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-sky-950/40 border border-sky-900/30 text-[11px] font-bold text-sky-400 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-comments text-xs"></i> Live Webchat
+                                    </span>
+                                    <span class="px-3 py-1.5 rounded-lg bg-indigo-950/40 border border-indigo-900/30 text-[11px] font-bold text-indigo-400 flex items-center gap-1.5">
+                                        <i class="fa-brands fa-telegram text-xs"></i> Telegram
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                            <a href="https://chatflow.biz.id" target="_blank" class="px-6 py-3.5 rounded-xl bg-slate-900 text-white hover:bg-slate-850 border border-slate-800 text-center font-bold text-xs uppercase tracking-wider transition-all">Landing Page</a>
+                            <a href="https://app.chatflow.biz.id" target="_blank" class="px-6 py-3.5 rounded-xl bg-brand-600 text-white hover:bg-brand-700 text-center font-bold text-xs uppercase tracking-wider shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2" x-text="t('Buka CRM', 'Launch CRM')"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web 2: Tutulan Sukma -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-brand-600 to-indigo-700 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-laptop-code text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">WordPress & System</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">PT. Tutulan Sukma</h3>
+                        <p class="text-xs text-slate-400">www.tutulansukma.com</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Pembangunan portal company profile resmi, support akun email korporat cPanel, integrasi database, dan visualisasi sales report Power BI.', 'Pembangunan portal company profile resmi, support akun email korporat cPanel, integrasi database, dan visualisasi sales report Power BI.')"></p>
+                    </div>
+                </div>
+
+                <!-- Web 3: Artapackindo -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-purple-600 to-indigo-700 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-box-open text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">Packaging Industry</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">PT. Artapack Indonesia</h3>
+                        <p class="text-xs text-slate-400">www.artapackindo.com</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Portal visualisasi industri packaging karton skala pabrik, didesain responsif guna menarik potensial prospek bisnis B2B.', 'Portal visualisasi industri packaging karton skala pabrik, didesain responsif guna menarik potensial prospek bisnis B2B.')"></p>
+                    </div>
+                </div>
+
+                <!-- Web 4: Samudra Diesel Part -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-emerald-600 to-teal-700 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-gears text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">Diesel spareparts</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Samudra Diesel Part</h3>
+                        <p class="text-xs text-slate-400">www.samudradieselpart.com</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Katalog pencarian suku cadang komponen diesel komersial besar yang memudahkan klien B2B melakukan pencarian tipe komponen.', 'Katalog pencarian suku cadang komponen diesel komersial besar yang memudahkan klien B2B melakukan pencarian tipe komponen.')"></p>
+                    </div>
+                </div>
+
+                <!-- Web 5: Gamma Bahari Mandiri -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-amber-600 to-orange-700 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-ship text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">Shipping Logistics</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Gamma Bahari Mandiri</h3>
+                        <p class="text-xs text-slate-400">www.gammabaharimandiri.com</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Website portofolio logistik laut komersial & keagenan kapal ekspor impor, teroptimasi SEO cepat agar tanggap dicari calon eksportir.', 'Website portofolio logistik laut komersial & keagenan kapal ekspor impor, teroptimasi SEO cepat agar tanggap dicari calon eksportir.')"></p>
+                    </div>
+                </div>
+
+                <!-- Web 6: RPU -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-sky-600 to-blue-700 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-briefcase text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">Corporate Portal</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">PT. RPU</h3>
+                        <p class="text-xs text-slate-400">www.rpu.co.id</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Situs profil bisnis formal perusahaan dengan sistem rekrutmen dasar terintegrasi untuk pendaftaran calon karyawan baru.', 'Situs profil bisnis formal perusahaan dengan sistem rekrutmen dasar terintegrasi untuk pendaftaran calon karyawan baru.')"></p>
+                    </div>
+                </div>
+
+                <!-- Web 7: Reza Printing -->
+                <div class="group rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-xl hover:border-brand-500/30 transition-all duration-300">
+                    <div class="aspect-video w-full bg-gradient-to-tr from-slate-600 to-slate-800 flex items-center justify-center text-white relative">
+                        <i class="fa-solid fa-print text-5xl opacity-20 group-hover:scale-110 transition-transform"></i>
+                        <span class="absolute top-4 left-4 text-[9px] font-bold uppercase tracking-widest bg-white/10 px-2.5 py-1 rounded-full">Printing eCommerce</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">Reza Printing</h3>
+                        <p class="text-xs text-slate-400">www.rezaprint.co.id</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed" x-text="t('Web e-commerce katalog printer & layanan servis mesin cetak lokal, dirancang untuk memudahkan pesanan pelanggan.', 'Web e-commerce katalog printer & layanan servis mesin cetak lokal, dirancang untuk memudahkan pesanan pelanggan.')"></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pelatihan & Training yang Diikuti -->
+    <section id="trainings" class="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Kurikulum Sertifikasi', 'Sertifikasi & Kualifikasi')"></span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Pelatihan Teknis Terpilih', 'Selected Technical Trainings')"></h2>
+                <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed" x-text="t('Sertifikasi profesional dan silabus bootcamp spesifik yang telah saya selesaikan untuk menunjang pilar keahlian integrasi IT.', 'Professional certifications and targeted bootcamp tracks completed to support core IT integration and automation objectives.')"></p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Platform: Udemy -->
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950/50 text-orange-600 dark:text-orange-400 flex items-center justify-center font-black text-lg">U</div>
+                        <div>
+                            <h3 class="font-bold text-base text-slate-900 dark:text-white">Udemy Courses</h3>
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider" x-text="t('Sertifikasi Kursus Internasional', 'International Course Certification')"></p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 pt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Konsep Data Warehouse menggunakan SQL Server', 'Data Warehouse Concept using SQL Server')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Cara Membangun Server Linux & Windows dari Nol', 'How to Build Linux & Windows Servers from Scratch')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Belajar & Praktik Data Science untuk Pemula', 'Learning & Practicing Data Science for Beginners')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Menjadi Ahli Data Analytics dengan Power BI', 'Mastering Data Analytics with Power BI')"></span></li>
+                    </ul>
+                </div>
+
+                <!-- Platform: Kursusdigital.id -->
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg"><i class="fa-solid fa-display"></i></div>
+                        <div>
+                            <h3 class="font-bold text-base text-slate-900 dark:text-white">Kursusdigital.id</h3>
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider" x-text="t('Sertifikasi Kursus Digital', 'Digital Course Certification')"></p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 pt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Belajar WordPress dari Dasar hingga Mahir', 'WordPress Mastery from Basics to Advanced')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-award text-amber-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Strategi Digital Marketing Terintegrasi', 'Integrated Digital Marketing Strategies')"></span></li>
+                    </ul>
+                </div>
+
+                <!-- Platform: AI Agent N8n Custom Project Systems -->
+                <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-sm">
+                    <div class="flex items-center space-x-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg"><i class="fa-solid fa-brain"></i></div>
+                        <div>
+                            <h3 class="font-bold text-base text-slate-900 dark:text-white">AI Agent n8n System</h3>
+                            <p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider" x-text="t('Spesialis Automasi Agentic AI', 'Agentic AI Automation Specialist')"></p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 pt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                        <li class="flex items-start"><i class="fa-solid fa-check-double text-emerald-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Input Nota Pembelian Otomatis ke DB via AI', 'Automated Purchase Receipt Logging to Database via AI')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check-double text-emerald-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('WhatsApp Kasir Otomatis dengan AI', 'Automated AI WhatsApp Cashier Engine')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check-double text-emerald-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('Customer Service Chat via Whatsapp', 'Automated WhatsApp Customer Service AI')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check-double text-emerald-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('AI Baca Stok Barang & Kirim Pesan Whatsapp/Telegram', 'AI Inventory Auditing & Auto WhatsApp/Telegram Alert')"></span></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check-double text-emerald-500 mt-0.5 mr-2 flex-shrink-0"></i><span x-text="t('AI Baca Email Masuk lalu Teruskan ke Telegram', 'AI Email Ingestion Routing directly to Telegram nodes')"></span></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white dark:bg-slate-900 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Left Details -->
+                <div class="lg:col-span-5 space-y-6">
+                    <div class="space-y-2">
+                        <span class="text-xs font-bold text-brand-600 dark:text-brand-400 uppercase tracking-widest block" x-text="t('Konsultasi Project', 'Project Consultation')"></span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white" x-text="t('Mulai Kolaborasi', 'Let\'s Collaborate')"></h2>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm sm:text-base leading-relaxed" x-text="t('Apakah perusahaan Anda membutuhkan perbaikan arsitektur jaringan MikroTik, setup AD Server, deployment Easypanel, integrasi WABA API ke CRM, atau otomatisasi otonom n8n? Saya siap dihubungi untuk berdiskusi secara mendalam.', 'Does your company require robust MikroTik routing architectures, local AD server auditing, Docker-based Easypanel clouds, WABA API CRM setups, or complex n8n automation workflows? Let\'s coordinate and construct your solutions.')"></p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-start space-x-3.5 shadow-sm">
+                            <i class="fa-solid fa-map-location-dot text-brand-500 text-xl mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200" x-text="t('Cakupan Wilayah', 'Service Coverage')"></h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-450 mt-1" x-text="t('Dukungan on-site di area Bekasi, Jakarta, & sekitarnya. Serta dukungan konfigurasi remote penuh di seluruh Indonesia.', 'On-site engineering within Bekasi, Jakarta, and adjacent areas. Global remote engineering throughout Indonesia and abroad.')"></p>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-start space-x-3.5 shadow-sm">
+                            <i class="fa-solid fa-clock text-indigo-500 text-xl mt-1 flex-shrink-0"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-800 dark:text-slate-200" x-text="t('Jam Operasional Aktif', 'Active Hours')"></h4>
+                                <p class="text-xs text-slate-500 dark:text-slate-450 mt-1" x-text="t('Senin - Jumat (08:00 - 18:00 WIB). Dukungan darurat kritis server siaga 24/7.', 'Monday - Friday (08:00 - 18:00 WIB). Critical emergency server support active 24/7.')"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Form (WhatsApp Integration) -->
+                <div class="lg:col-span-7" x-data="{
+                    name: '',
+                    email: '',
+                    company: '',
+                    service: 'it_support',
+                    message: '',
+                    sendWhatsApp() {
+                        if (!this.name || !this.message) {
+                            triggerToast(this.lang === 'id' ? 'Nama dan detail pesan wajib diisi!' : 'Name and message details are required!');
+                            return;
+                        }
+                        
+                        const fullMsg = `Halo Mas Novicho Chalman,\n\nNama: ${this.name}\nEmail: ${this.email || '-'}\nInstansi: ${this.company || '-'}\nLayanan yang dicari: ${this.service}\n\nPesan:\n${this.message}`;
+                        const encodedMsg = encodeURIComponent(fullMsg);
+                        
+                        window.open(`https://wa.me/6285211841441?text=${encodedMsg}`, '_blank');
+                    }
+                }">
+                    <form @submit.prevent="sendWhatsApp()" class="p-8 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800/80 space-y-6 shadow-sm">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white" x-text="t('Formulir Pengajuan Keperluan IT', 'IT Request & Inquiries Form')"></h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2" x-text="t('Nama Lengkap *', 'Full Name *')"></label>
+                                <input type="text" x-model="name" required placeholder="Contoh: Budi Santoso" class="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2" x-text="t('Email Perusahaan', 'Corporate Email')"></label>
+                                <input type="email" x-model="email" placeholder="Contoh: budi@perusahaan.com" class="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2" x-text="t('Perusahaan / Organisasi', 'Company / Organization')"></label>
+                                <input type="text" x-model="company" placeholder="Contoh: PT. Maju Berdikari" class="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2" x-text="t('Kategori Layanan', 'Service Category')"></label>
+                                <select x-model="service" class="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500">
+                                    <option value="it_support" x-text="t('IT Support & Troubleshooting Hardware', 'IT Support & Hardware Troubleshooting')"></option>
+                                    <option value="network_server" x-text="t('Konfigurasi Jaringan & AD Server', 'Network Configuration & AD Server Tuning')"></option>
+                                    <option value="ai_automation" x-text="t('Automasi Agen AI n8n & WABA API', 'AI Agent n8n Automation & WABA API CRM')"></option>
+                                    <option value="data_analyst" x-text="t('Data Analyst & Power BI Dashboard', 'Data Analytics & Power BI Dashboards')"></option>
+                                    <option value="web_dev" x-text="t('Web Development & Cloud Server', 'Web Development & Cloud Server Infrastructure')"></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2" x-text="t('Detail Kebutuhan & Pesan *', 'Requirement Details & Message *')"></label>
+                            <textarea x-model="message" required rows="4" :placeholder="t('Jelaskan secara singkat mengenai kebutuhan IT perusahaan atau rancangan automasi bisnis yang ingin Anda diskusikan...', 'Describe briefly your corporate IT network issues or proposed business process automation workflows...')" class="w-full px-4 py-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-brand-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span x-text="t('Kirim Formulir ke WhatsApp', 'Submit Inquiry to WhatsApp')"></span>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-slate-100 dark:bg-slate-950 text-slate-500 dark:text-slate-400 py-12 border-t border-slate-200 dark:border-slate-900 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Left Info Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 rounded-xl bg-brand-600 flex items-center justify-center text-white font-bold text-base shadow">
+                        NC
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-slate-900 dark:text-white block text-sm">Novicho Chalman</span>
+                        <span class="text-[9px] uppercase tracking-wider font-bold text-slate-400 block mt-0.5" x-text="t('Enterprise IT & AI Integrator', 'Enterprise IT & AI Integrator')"></span>
+                    </div>
+                </div>
+
+                <!-- Center Copyright -->
+                <div class="text-xs text-center md:text-right">
+                    <p>&copy; 2026 Novicho Chalman. All rights reserved.</p>
+                    <p class="mt-1 text-[10px] text-slate-400 dark:text-slate-500" x-text="t('Membawa Infrastruktur IT & Kecerdasan AI ke Level Tertinggi.', 'Pioneering IT Infrastructure & AI Intelligence.')"></p>
+                </div>
+
+                <!-- Right Social icons links -->
+                <div class="flex space-x-4">
+                    <a href="tel:085211841441" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-900 hover:bg-brand-600 hover:text-white flex items-center justify-center transition-colors" title="Hubungi Nomor HP"><i class="fa-solid fa-phone text-xs"></i></a>
+                    <a href="mailto:novichochalman@gmail.com" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-900 hover:bg-indigo-600 hover:text-white flex items-center justify-center transition-colors" title="Kirim E-mail"><i class="fa-solid fa-envelope text-xs"></i></a>
+                    <a href="https://chatflow.biz.id" target="_blank" class="w-9 h-9 rounded-full bg-slate-200 dark:bg-slate-900 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors" title="Buka Chatflow CRM"><i class="fa-solid fa-globe text-xs"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <!-- Safe Storage & Smart Smooth Scroll Controller -->
+    <script>
+        const anchorNavs = document.querySelectorAll('a[href^="#"]');
+        anchorNavs.forEach(nav => {
+            nav.addEventListener('click', function(e) {
+                const targetPath = this.getAttribute('href');
+                if (targetPath === '#') return;
+                
+                const destinationElement = document.querySelector(targetPath);
+                if (destinationElement) {
+                    e.preventDefault();
+                    
+                    const navbarOffset = 80; 
+                    const boundingTop = destinationElement.getBoundingClientRect().top;
+                    const calculatedOffset = boundingTop + window.pageYOffset - navbarOffset;
+                    
+                    window.scrollTo({
+                        top: calculatedOffset,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
